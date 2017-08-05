@@ -43,6 +43,7 @@ extra-y					:= $(head-y) vmlinux.lds
 
 obj-y += alucard_hotplug.o
 obj-y +=fastchg.o
+obj-y +=intelli_plug.o
 
 # vDSO - this must be built first to generate the symbol offsets
 $(call objectify,$(arm64-obj-y)): $(obj)/vdso/vdso-offsets.h
