@@ -27,4 +27,5 @@ echo "Compiling ThePossessedKernel"
 make -j5
 echo "Generating Dtb"
 /$/scripts/dtbToolCM -2 -o /$/arch/arm/boot/dt.img -s 2048 -p /$/scripts/dtc/ /$/arch/arm/boot/dts/
+echo -e "$yellow Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds.$nocol"
 echo "Now GTFO bish"
