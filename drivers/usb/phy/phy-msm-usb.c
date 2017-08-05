@@ -52,6 +52,11 @@
 
 #include <linux/msm-bus.h>
 
+#ifdef CONFIG_FORCE_FAST_CHARGE
+#include <linux/fastchg.h>
+#define USB_FASTCHG_LOAD 1500 /* uA */
+#endif
+
 #define MSM_USB_BASE	(motg->regs)
 #define MSM_USB_PHY_CSR_BASE (motg->phy_csr_regs)
 
@@ -1903,23 +1908,32 @@ static int msm_otg_notify_power_supply(struct msm_otg *motg, unsigned mA)
 	}
 
 	if (motg->cur_power == 0 && mA > 2) {
+		
+#ifdef CONFIG_FORCE_FAST_CHARGE
+	if (force_fast_charge == 1) {
+			mA = USB_FASTCHG_LOAD;
+			pr_info("USB fast charging is ON - 1500mA.\n");
+	} else {
+		pr_info("USB fast charging is OFF.\n");
+	}
+#endif		
 		/* Enable charging */
 		if (power_supply_set_online(psy, true))
 			goto psy_error;
-		if (power_supply_set_current_limit(psy, 1000*mA))
+		if (power_supply_set_current_limit(psy, 1500*mA))
 			goto psy_error;
 	} else if (motg->cur_power >= 0 && (mA == 0 || mA == 2)) {
 		/* Disable charging */
 		if (power_supply_set_online(psy, false))
 			goto psy_error;
 		/* Set max current limit in uA */
-		if (power_supply_set_current_limit(psy, 1000*mA))
+		if (power_supply_set_current_limit(psy, 1500*mA))
 			goto psy_error;
 	} else {
 		if (power_supply_set_online(psy, true))
 			goto psy_error;
 		/* Current has changed (100/2 --> 500) */
-		if (power_supply_set_current_limit(psy, 1000*mA))
+		if (power_supply_set_current_limit(psy, 1500*mA))
 			goto psy_error;
 	}
 
