@@ -1,8 +1,8 @@
 /*
  *  drivers/cpufreq/cpufreq_thenewbeginning.c
  *
- *  Copyright (C)  2011 Samsung Electronics co. ltd
- *    ByungChang Cha <bc.cha@samsung.com>
+ *  Copyright (C)  2017 Varun Vaishnav
+ *    ByungChang Cha <bc.cha@gmail.com>
  *
  *  Based on ondemand governor
  *  Copyright (C)  2001 Russell King
@@ -13,7 +13,7 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  *
- * Created by thenewbeginning_24@xda
+ * Created by TheHardGamer@xda
  */
 
 #include <linux/kernel.h>
@@ -41,14 +41,14 @@
 #define FREQ_RESPONSIVENESS		1134000
 #endif
 
-#define CPUS_DOWN_RATE			2
+#define CPUS_DOWN_RATE			3
 #define CPUS_UP_RATE			1
 
-#define DEC_CPU_LOAD			70
-#define DEC_CPU_LOAD_AT_MIN_FREQ	60
+#define DEC_CPU_LOAD			80
+#define DEC_CPU_LOAD_AT_MIN_FREQ	62
 
-#define INC_CPU_LOAD			70
-#define INC_CPU_LOAD_AT_MIN_FREQ	60
+#define INC_CPU_LOAD			80
+#define INC_CPU_LOAD_AT_MIN_FREQ	62
 
 /* Pump Inc/Dec for all cores */
 #define PUMP_INC_STEP_AT_MIN_FREQ	2
@@ -58,7 +58,7 @@
 
 /* sample rate */
 #define MIN_SAMPLING_RATE		10000
-#define SAMPLING_RATE			50000
+#define SAMPLING_RATE			70000
 
 static void do_thenewbeginning_timer(struct work_struct *work);
 
