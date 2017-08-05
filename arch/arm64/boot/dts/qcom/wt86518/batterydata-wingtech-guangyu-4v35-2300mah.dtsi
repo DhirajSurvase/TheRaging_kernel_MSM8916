@@ -17,7 +17,7 @@ qcom,wingtech-guangyu-4v35-2300mah-data {
 	qcom,fcc-mah = <2300>;
 	qcom,rbatt-capacitive-mohm = <50>;
 	qcom,v-cutoff-uv = <3400000>;
-	qcom,chg-term-ua = <100000>;
+	qcom,chg-term-ua = <150000>;
 	qcom,batt-id-kohm = <110>;
 	qcom,flat-ocv-threshold-uv = <3800000>;
 	                 
