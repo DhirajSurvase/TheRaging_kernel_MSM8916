@@ -5545,14 +5545,14 @@ static void msm8x16_wcd_configure_cap(struct snd_soc_codec *codec,
 }
 
 #ifdef CONFIG_PHANTOM_GAIN_CONTROL
-static struct snd_soc_codec *sound_control_codec_ptr;
+static struct snd_soc_codec *fauxsound_codec_ptr;
 
 static ssize_t headphone_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d %d\n",
-		snd_soc_read(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_RX1_VOL_CTL_B2_CTL),
-		snd_soc_read(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL)
+		snd_soc_read(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_RX1_VOL_CTL_B2_CTL),
+		snd_soc_read(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL)
 	);
 }
 
@@ -5570,14 +5570,14 @@ static ssize_t headphone_gain_store(struct kobject *kobj,
 	if (input_r < -84 || input_r > 20)
 		input_r = 0;
 
-	snd_soc_write(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_RX1_VOL_CTL_B2_CTL, input_l);
-	snd_soc_write(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL, input_r);
+	snd_soc_write(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_RX1_VOL_CTL_B2_CTL, input_l);
+	snd_soc_write(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL, input_r);
 
 	return count;
 }
 
 static struct kobj_attribute headphone_gain_attribute =
-	__ATTR(headphone_gain, 0664,
+	__ATTR(gpl_headphone_gain, 0664,
 		headphone_gain_show,
 		headphone_gain_store);
 
@@ -5585,7 +5585,7 @@ static ssize_t mic_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n",
-		snd_soc_read(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_TX1_VOL_CTL_GAIN));
+		snd_soc_read(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_TX1_VOL_CTL_GAIN));
 }
 
 static ssize_t mic_gain_store(struct kobject *kobj,
@@ -5598,13 +5598,13 @@ static ssize_t mic_gain_store(struct kobject *kobj,
 	if (input < -10 || input > 20)
 		input = 0;
 
-	snd_soc_write(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_TX1_VOL_CTL_GAIN, input);
+	snd_soc_write(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_TX1_VOL_CTL_GAIN, input);
 
 	return count;
 }
 
 static struct kobj_attribute mic_gain_attribute =
-	__ATTR(mic_gain, 0664,
+	__ATTR(gpl_mic_gain, 0664,
 		mic_gain_show,
 		mic_gain_store);
 
@@ -5612,7 +5612,7 @@ static ssize_t speaker_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n",
-		snd_soc_read(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL));
+		snd_soc_read(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL));
 }
 
 static ssize_t speaker_gain_store(struct kobject *kobj,
@@ -5626,14 +5626,14 @@ static ssize_t speaker_gain_store(struct kobject *kobj,
 	if (input < -10 || input > 20)
 		input = 0;
 
-	snd_soc_write(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL, input);
-	snd_soc_write(sound_control_codec_ptr, MSM8X16_WCD_A_CDC_RX1_VOL_CTL_B2_CTL, input);
+	snd_soc_write(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_RX2_VOL_CTL_B2_CTL, input);
+	snd_soc_write(fauxsound_codec_ptr, MSM8X16_WCD_A_CDC_RX1_VOL_CTL_B2_CTL, input);
 
 	return count;
 }
 
 static struct kobj_attribute speaker_gain_attribute =
-	__ATTR(speaker_gain, 0664,
+	__ATTR(gpl_speaker_gain, 0664,
 		speaker_gain_show,
 		speaker_gain_store);
 
@@ -5662,7 +5662,7 @@ static int msm8x16_wcd_codec_probe(struct snd_soc_codec *codec)
 	dev_dbg(codec->dev, "%s()\n", __func__);
 
 #ifdef CONFIG_PHANTOM_GAIN_CONTROL
-	sound_control_codec_ptr = codec;
+	fauxsound_codec_ptr = codec;
 #endif
 
 	msm8x16_wcd_priv = kzalloc(sizeof(struct msm8x16_wcd_priv), GFP_KERNEL);
@@ -6214,7 +6214,7 @@ static int msm8x16_wcd_spmi_probe(struct spmi_device *spmi)
 	dev_set_drvdata(&spmi->dev, msm8x16);
 
 #ifdef CONFIG_PHANTOM_GAIN_CONTROL
-	sound_control_kobj = kobject_create_and_add("sound_control", kernel_kobj);
+	sound_control_kobj = kobject_create_and_add("sound_control_3", kernel_kobj);
 	if (sound_control_kobj == NULL) {
 		pr_warn("%s kobject create failed!\n", __func__);
         }
@@ -6332,4 +6332,3 @@ module_exit(msm8x16_wcd_codec_exit);
 MODULE_DESCRIPTION("MSM8x16 Audio codec driver");
 MODULE_LICENSE("GPL v2");
 MODULE_DEVICE_TABLE(of, msm8x16_wcd_spmi_id_table);
-
