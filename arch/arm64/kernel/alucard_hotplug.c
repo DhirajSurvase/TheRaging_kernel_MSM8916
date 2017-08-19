@@ -29,8 +29,7 @@
 #include <linux/earlysuspend.h>
 #endif  /* CONFIG_POWERSUSPEND || CONFIG_HAS_EARLYSUSPEND */
 
-struct hotplug_cpuinfo {
-#ifndef CONFIG_ALUCARD_HOTPLUG_USE_CPU_UTIL
+struct hotplug_cpuinfo {#ifndef CONFIG_ALUCARD_HOTPLUG_USE_CPU_UTIL
 	u64 prev_cpu_wall;
 	u64 prev_cpu_idle;
 #endif
@@ -67,16 +66,16 @@ static struct hotplug_tuners {
 	struct mutex alu_hotplug_mutex;
 #endif
 } hotplug_tuners_ins = {
-	.hotplug_sampling_rate = 70,
+	.hotplug_sampling_rate = 50,
 #ifdef CONFIG_MACH_JF
 	.hotplug_enable = 0,
 #else
-	.hotplug_enable = 0,
+	.hotplug_enable = 1
 #endif
 	.min_cpus_online = 2,
 	.maxcoreslimit = 2,
 	.maxcoreslimit_sleep = 1,
-	.hp_io_is_busy = 0,
+	.hp_io_is_busy = 1,
 #if defined(CONFIG_POWERSUSPEND) || \
 	defined(CONFIG_HAS_EARLYSUSPEND)
 	.hotplug_suspend = 0,
