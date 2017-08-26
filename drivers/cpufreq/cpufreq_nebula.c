@@ -30,7 +30,7 @@
 #include <linux/kthread.h>
 #include <linux/slab.h>
 #define CREATE_TRACE_POINTS
-#include <trace/events/cpufreq_nebula.h>
+#include <cpufreq_nebula.h>
 struct cpufreq_nebula_cpuinfo {
 	struct timer_list cpu_timer;
 	struct timer_list cpu_slack_timer;
