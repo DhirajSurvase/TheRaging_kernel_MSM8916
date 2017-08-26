@@ -80,7 +80,7 @@ static struct mutex sched_lock;
 
 #define DEFAULT_GO_HISPEED_LOAD 99
 /* Target load.  Lower values result in higher CPU speeds. */
-#define DEFAULT_TARGET_LOAD 90
+#define DEFAULT_TARGET_LOAD 70
 static unsigned int default_target_loads[] = {DEFAULT_TARGET_LOAD};
 #define DEFAULT_TIMER_RATE (20 * USEC_PER_MSEC)
 #define DEFAULT_MIN_SAMPLE_TIME (80 * USEC_PER_MSEC)
@@ -90,11 +90,11 @@ static unsigned int default_target_loads[] = {DEFAULT_TARGET_LOAD};
 static unsigned int default_above_hispeed_delay[] = {
 	DEFAULT_ABOVE_HISPEED_DELAY };
 #define DEFAULT_TIMER_SLACK (4 * DEFAULT_TIMER_RATE)
-#define DEFAULT_IO_IS_BUSY 1
-#define DEFAULT_UP_THRESHOLD_ANY_CPU_LOAD 25
-#define DEFAULT_SYNC_FREQ 702000;
+#define DEFAULT_IO_IS_BUSY 0
+#define DEFAULT_UP_THRESHOLD_ANY_CPU_LOAD 50
+#define DEFAULT_SYNC_FREQ 500000;
 #define DEFAULT_UP_THRESHOLD_ANY_CPU_FREQ 1026000
-#define DEFAULT_TWO_PHASE_FREQ_ARRAY "{[0 ... NR_CPUS-1] = 1350000}"
+#define DEFAULT_TWO_PHASE_FREQ_ARRAY "{[0 ... NR_CPUS-1] = 1094400}"
 
 struct cpufreq_cyan_tunables {
 	int usage_count;
